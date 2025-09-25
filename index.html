@@ -1,0 +1,558 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PontalZen - Centro Médico</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+
+        .facebook-header {
+            background: linear-gradient(90deg, #1877f2, #0d5ab9);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: #1877f2;
+            background: white;
+            border-radius: 50%;
+            padding: 4px;
+        }
+
+        .logo span {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .search-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            width: 400px;
+            max-width: 60%;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 4px 8px;
+            font-size: 14px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icons i {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .cover-photo {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #667eea;
+            margin: -60px auto 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .page-info {
+            text-align: center;
+            padding: 20px 0 10px;
+        }
+
+        .page-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-category {
+            font-size: 16px;
+            color: #e4e6eb;
+            margin-bottom: 12px;
+        }
+
+        .page-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: #b0b3b8;
+            font-size: 14px;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px;
+            background: #f0f2f5;
+            border-bottom: 1px solid #e4e6eb;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #1877f2;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #e4e6eb;
+            color: #1c1e21;
+        }
+
+        .posts-container {
+            padding: 16px;
+        }
+
+        .post {
+            padding: 16px 0;
+            border-bottom: 1px solid #e4e6eb;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .post-info {
+            flex: 1;
+        }
+
+        .post-author {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .post-time {
+            color: #65676b;
+            font-size: 12px;
+        }
+
+        .post-content {
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid #e4e6eb;
+            border-bottom: 1px solid #e4e6eb;
+            margin-top: 12px;
+        }
+
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #65676b;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .post-action:hover {
+            color: #1877f2;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .sidebar-widget {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            padding: 16px;
+        }
+
+        .widget-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1c1e21;
+        }
+
+        .about-info {
+            line-height: 1.6;
+        }
+
+        .about-item {
+            margin-bottom: 12px;
+        }
+
+        .about-label {
+            font-weight: 600;
+            color: #65676b;
+            margin-bottom: 4px;
+        }
+
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .service-item {
+            padding: 8px;
+            background: #f0f2f5;
+            border-radius: 6px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .exams-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .exam-item {
+            padding: 8px;
+            background: #f0f2f5;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .contact-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1877f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-bar {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .services-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .cover-photo {
+                height: 150px;
+            }
+            
+            .profile-pic {
+                width: 90px;
+                height: 90px;
+                font-size: 32px;
+                margin: -45px auto 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Facebook Header -->
+    <div class="facebook-header">
+        <div class="logo">
+            <i class="fab fa-facebook"></i>
+            <span>PontalZen</span>
+        </div>
+        <div class="search-bar">
+            <i class="fas fa-search" style="color: #65676b;"></i>
+            <input type="text" placeholder="Pesquisar no Facebook">
+        </div>
+        <div class="nav-icons">
+            <i class="fas fa-home"></i>
+            <i class="fas fa-users"></i>
+            <i class="fas fa-bell"></i>
+            <i class="fas fa-comment"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="cover-photo"></div>
+            <div class="profile-pic">
+                <i class="fas fa-clinic-medical"></i>
+            </div>
+            <div class="page-info">
+                <div class="page-name">Centro Médico PontalZen</div>
+                <div class="page-category">Clínica Médica em Pontal do Paraná</div>
+                <div class="page-stats">
+                    <span>1.234 curtidas</span>
+                    <span>•</span>
+                    <span>89 pessoas falando sobre</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary">
+                    <i class="fas fa-thumbs-up"></i>
+                    Curtir
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-share"></i>
+                    Compartilhar
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-bell"></i>
+                    Receber alertas
+                </button>
+            </div>
+
+            <!-- Posts -->
+            <div class="posts-container">
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">PZ</div>
+                        <div class="post-info">
+                            <div class="post-author">Centro Médico PontalZen</div>
+                            <div class="post-time">Hoje às 10:30</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Estamos comprometidos em oferecer atendimento médico de qualidade com profissionais especializados em diversas áreas da saúde. Agende sua consulta hoje mesmo!</p>
+                    </div>
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Curtir</span>
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-comment"></i>
+                            <span>Comentar</span>
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i>
+                            <span>Compartilhar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">PZ</div>
+                        <div class="post-info">
+                            <div class="post-author">Centro Médico PontalZen</div>
+                            <div class="post-time">Ontem às 14:15</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Novidade! Agora realizamos exames de ecografia abdominal e urológica com equipamentos de última geração. Agende pelo nosso WhatsApp!</p>
+                    </div>
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Curtir</span>
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-comment"></i>
+                            <span>Comentar</span>
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i>
+                            <span>Compartilhar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- About Widget -->
+            <div class="sidebar-widget">
+                <div class="widget-title">Sobre</div>
+                <div class="about-info">
+                    <div class="about-item">
+                        <div class="about-label">Endereço</div>
+                        <p>Rua Tomário Martins, esquina com Rua Tibagi, 939<br>Pontal do Paraná - PR<br>Praia de Leste</p>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-label">Especialidades</div>
+                        <div class="services-list">
+                            <div class="service-item">Urologia</div>
+                            <div class="service-item">Endocrinologia</div>
+                            <div class="service-item">Geriatria</div>
+                            <div class="service-item">Clínico Geral</div>
+                            <div class="service-item">Psiquiatria</div>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <div class="about-label">Exames Realizados</div>
+                        <div class="exams-list">
+                            <div class="exam-item">Ecografia Abdominal</div>
+                            <div class="exam-item">Ecografia Urológica</div>
+                            <div class="exam-item">Urofluxometrias</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Widget -->
+            <div class="sidebar-widget">
+                <div class="widget-title">Contato</div>
+                <div class="contact-info">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        <div class="about-label">Telefone</div>
+                        <p>(41) 98999-939</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <div class="about-label">WhatsApp</div>
+                        <p>(41) 98999-939</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <div class="about-label">E-mail</div>
+                        <p>pontal.zen@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <div class="about-label">Horário de Atendimento</div>
+                        <p>Segunda a Sexta: 8h às 20h</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photos Widget -->
+            <div class="sidebar-widget">
+                <div class="widget-title">Fotos</div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-top: 12px;">
+                    <div style="height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 4px;"></div>
+                    <div style="height: 60px; background: linear-gradient(45deg, #f093fb, #f5576c); border-radius: 4px;"></div>
+                    <div style="height: 60px; background: linear-gradient(45deg, #4facfe, #00f2fe); border-radius: 4px;"></div>
+                    <div style="height: 60px; background: linear-gradient(45deg, #43e97b, #38f9d7); border-radius: 4px;"></div>
+                    <div style="height: 60px; background: linear-gradient(45deg, #fa709a, #fee140); border-radius: 4px;"></div>
+                    <div style="height: 60px; background: linear-gradient(45deg, #a8edea, #fed6e3); border-radius: 4px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+```
