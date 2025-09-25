@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PontalZen - Centro Médico</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * {
             margin: 0;
@@ -260,6 +261,52 @@
             box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
         }
 
+        /* Map Section */
+        .map-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 16px;
+            margin-top: 1rem;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .map-btn {
+            padding: 10px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .map-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .location-display {
+            margin-top: 1rem;
+            padding: 12px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
         /* Services Section */
         .section {
             margin-bottom: 3rem;
@@ -363,21 +410,6 @@
         .location-text p {
             margin-bottom: 1rem;
             color: #475569;
-        }
-
-        .map-placeholder {
-            flex: 1;
-            height: 200px;
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-dark);
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-align: center;
-            padding: 20px;
         }
 
         /* Exams Section */
@@ -540,12 +572,12 @@
                 flex-direction: column;
             }
             
-            .map-placeholder {
-                height: 150px;
-            }
-            
             .appointment-form {
                 grid-template-columns: 1fr;
+            }
+            
+            .map-controls {
+                justify-content: center;
             }
         }
 
@@ -672,7 +704,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="message">Mensagem Adicional (Opcional)</label>
+                        <label for="message">Observações (Opcional)</label>
                         <textarea id="message" class="form-control" rows="3" placeholder="Informações adicionais sobre sua consulta..."></textarea>
                     </div>
                     
@@ -680,6 +712,23 @@
                         <i class="fab fa-whatsapp"></i> Enviar Agendamento via WhatsApp
                     </button>
                 </form>
+            </section>
+
+            <!-- Map Section -->
+            <section class="map-section">
+                <h2 class="section-title">Localização</h2>
+                <div id="map"></div>
+                <div class="map-controls">
+                    <button id="useLocationBtn" class="map-btn">
+                        <i class="fas fa-location-arrow"></i> Usar Minha Localização
+                    </button>
+                    <button id="resetMapBtn" class="map-btn">
+                        <i class="fas fa-map-marker-alt"></i> Centralizar no Centro Médico
+                    </button>
+                </div>
+                <div id="locationDisplay" class="location-display">
+                    Clique no mapa ou use sua localização para definir o ponto de referência
+                </div>
             </section>
 
             <!-- Services Section -->
@@ -735,24 +784,6 @@
                         <div class="service-details">
                             <strong>Tratamentos:</strong> Ansiedade, depressão, transtorno bipolar, insônia, dependência química, transtornos alimentares e acompanhamento psicofarmacológico.
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Location Section -->
-            <section class="location-section">
-                <h2 class="section-title">Localização</h2>
-                <div class="location-content">
-                    <div class="location-text">
-                        <h3>Encontre-nos facilmente em Pontal do Paraná</h3>
-                        <p><strong>Endereço completo:</strong> Rua Tomário Martins, esquina com Rua Tibagi, 939</p>
-                        <p><strong>Bairro:</strong> Praia de Leste</p>
-                        <p><strong>Cidade:</strong> Pontal do Paraná - PR</p>
-                        <p><strong>Ponto de referência:</strong> Próximo à Praia de Leste, fácil acesso e estacionamento disponível.</p>
-                        <p>Nossa clínica está estrategicamente localizada para atender toda a região com facilidade de acesso e conforto para nossos pacientes.</p>
-                    </div>
-                    <div class="map-placeholder">
-                        <div>Mapa de Localização<br>(Integração com Google Maps disponível em breve)</div>
                     </div>
                 </div>
             </section>
@@ -827,7 +858,113 @@
         <p style="margin-top: 10px; font-size: 1rem;">Cuidando da sua saúde com dedicação e profissionalismo</p>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // Configurações do mapa
+        const CENTER_LAT = -25.691589;
+        const CENTER_LNG = -48.469708;
+        const DELTA_BOUNDS = 0.06;
+        const START_ZOOM = 15;
+
+        // Inicializar o mapa
+        const map = L.map('map').setView([CENTER_LAT, CENTER_LNG], START_ZOOM);
+
+        // Adicionar tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Definir limites do mapa (restrição por área)
+        const bounds = L.latLngBounds(
+            L.latLng(CENTER_LAT - DELTA_BOUNDS, CENTER_LNG - DELTA_BOUNDS),
+            L.latLng(CENTER_LAT + DELTA_BOUNDS, CENTER_LNG + DELTA_BOUNDS)
+        );
+        map.setMaxBounds(bounds);
+        map.fitBounds(bounds);
+
+        // Marcador inicial (Centro Médico PontalZen)
+        let marker = L.marker([CENTER_LAT, CENTER_LNG], {
+            draggable: true,
+            title: 'Arraste para ajustar a localização'
+        }).addTo(map);
+
+        // Atualizar exibição da localização
+        function updateLocationDisplay(lat, lng) {
+            const locationDisplay = document.getElementById('locationDisplay');
+            reverseGeocode(lat, lng).then(address => {
+                locationDisplay.innerHTML = `<strong>Localização selecionada:</strong><br>${address}<br><em>Coordenadas: ${lat.toFixed(6)}, ${lng.toFixed(6)}</em>`;
+            }).catch(() => {
+                locationDisplay.innerHTML = `<strong>Localização selecionada:</strong><br>Coordenadas: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            });
+        }
+
+        // Geocodificação reversa usando Nominatim
+        function reverseGeocode(lat, lng) {
+            return fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.display_name) {
+                        return data.display_name;
+                    }
+                    throw new Error('No address found');
+                });
+        }
+
+        // Autocomplete usando Photon
+        function searchAddress(query) {
+            const bbox = `${CENTER_LNG - DELTA_BOUNDS},${CENTER_LAT - DELTA_BOUNDS},${CENTER_LNG + DELTA_BOUNDS},${CENTER_LAT + DELTA_BOUNDS}`;
+            return fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&bbox=${bbox}&limit=5`)
+                .then(response => response.json())
+                .then(data => data.features || []);
+        }
+
+        // Evento de clique no mapa
+        map.on('click', function(e) {
+            const { lat, lng } = e.latlng;
+            marker.setLatLng([lat, lng]);
+            updateLocationDisplay(lat, lng);
+        });
+
+        // Evento de arrastar o marcador
+        marker.on('dragend', function(e) {
+            const { lat, lng } = marker.getLatLng();
+            updateLocationDisplay(lat, lng);
+        });
+
+        // Botão "Usar Minha Localização"
+        document.getElementById('useLocationBtn').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const { latitude, longitude } = position.coords;
+                        // Verificar se está dentro dos limites
+                        if (bounds.contains([latitude, longitude])) {
+                            marker.setLatLng([latitude, longitude]);
+                            map.setView([latitude, longitude], START_ZOOM);
+                            updateLocationDisplay(latitude, longitude);
+                        } else {
+                            alert('Sua localização está fora da área de atendimento. Centralizando no Centro Médico.');
+                            marker.setLatLng([CENTER_LAT, CENTER_LNG]);
+                            map.setView([CENTER_LAT, CENTER_LNG], START_ZOOM);
+                            updateLocationDisplay(CENTER_LAT, CENTER_LNG);
+                        }
+                    },
+                    function(error) {
+                        alert('Não foi possível obter sua localização. Por favor, clique no mapa para selecionar manualmente.');
+                    }
+                );
+            } else {
+                alert('Geolocalização não suportada pelo seu navegador.');
+            }
+        });
+
+        // Botão "Centralizar no Centro Médico"
+        document.getElementById('resetMapBtn').addEventListener('click', function() {
+            marker.setLatLng([CENTER_LAT, CENTER_LNG]);
+            map.setView([CENTER_LAT, CENTER_LNG], START_ZOOM);
+            updateLocationDisplay(CENTER_LAT, CENTER_LNG);
+        });
+
         // Função para formatar telefone
         function formatPhone(phone) {
             return phone.replace(/\D/g, '');
@@ -852,6 +989,10 @@
             const time = document.getElementById('time').value;
             const message = document.getElementById('message').value;
             
+            // Obter localização do marcador
+            const { lat, lng } = marker.getLatLng();
+            const locationCoords = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            
             // Formatar a mensagem para WhatsApp
             let whatsappMessage = `Olá! Gostaria de agendar uma consulta no Centro Médico PontalZen.\n\n`;
             whatsappMessage += `*Nome:* ${name}\n`;
@@ -859,6 +1000,7 @@
             whatsappMessage += `*Data:* ${formatDate(date)}\n`;
             whatsappMessage += `*Horário:* ${time}\n`;
             whatsappMessage += `*WhatsApp:* ${phone}\n`;
+            whatsappMessage += `*Localização:* ${locationCoords}\n`;
             
             if (message) {
                 whatsappMessage += `*Observações:* ${message}\n`;
@@ -895,6 +1037,9 @@
                 
                 e.target.value = value;
             });
+            
+            // Inicializar exibição da localização
+            updateLocationDisplay(CENTER_LAT, CENTER_LNG);
         });
     </script>
 </body>
