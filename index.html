@@ -202,6 +202,64 @@
             gap: 3rem;
         }
 
+        /* Appointment Section */
+        .appointment-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .appointment-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .form-control {
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+
         /* Services Section */
         .section {
             margin-bottom: 3rem;
@@ -485,6 +543,10 @@
             .map-placeholder {
                 height: 150px;
             }
+            
+            .appointment-form {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Animation for service cards */
@@ -561,6 +623,65 @@
     <!-- Main Content -->
     <div class="main-container">
         <main>
+            <!-- Appointment Section -->
+            <section class="appointment-section">
+                <h2 class="section-title">Agende sua Consulta</h2>
+                <form id="appointmentForm" class="appointment-form">
+                    <div class="form-group">
+                        <label for="name">Nome Completo</label>
+                        <input type="text" id="name" class="form-control" placeholder="Digite seu nome completo" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">WhatsApp</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="(41) 99999-9999" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specialty">Especialidade</label>
+                        <select id="specialty" class="form-control" required>
+                            <option value="">Selecione uma especialidade</option>
+                            <option value="Urologia">Urologia</option>
+                            <option value="Endocrinologia">Endocrinologia</option>
+                            <option value="Geriatria">Geriatria</option>
+                            <option value="Clínico Geral">Clínico Geral</option>
+                            <option value="Psiquiatria">Psiquiatria</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Data da Consulta</label>
+                        <input type="date" id="date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time">Horário Preferencial</label>
+                        <select id="time" class="form-control" required>
+                            <option value="">Selecione um horário</option>
+                            <option value="08:00">08:00</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                            <option value="19:00">19:00</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensagem Adicional (Opcional)</label>
+                        <textarea id="message" class="form-control" rows="3" placeholder="Informações adicionais sobre sua consulta..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fab fa-whatsapp"></i> Enviar Agendamento via WhatsApp
+                    </button>
+                </form>
+            </section>
+
             <!-- Services Section -->
             <section class="section">
                 <h2 class="section-title">Nossas Especialidades</h2>
@@ -627,7 +748,7 @@
                         <p><strong>Endereço completo:</strong> Rua Tomário Martins, esquina com Rua Tibagi, 939</p>
                         <p><strong>Bairro:</strong> Praia de Leste</p>
                         <p><strong>Cidade:</strong> Pontal do Paraná - PR</p>
-                        <p><strong>Ponto de referência:</strong> Próximo à Colegio Estadual Hélio Antônio De Souza e Academia Tae Kombat, fácil acesso e estacionamento disponível.</p>
+                        <p><strong>Ponto de referência:</strong> Próximo à Praia de Leste, fácil acesso e estacionamento disponível.</p>
                         <p>Nossa clínica está estrategicamente localizada para atender toda a região com facilidade de acesso e conforto para nossos pacientes.</p>
                     </div>
                     <div class="map-placeholder">
@@ -702,23 +823,77 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Centro Médico PontalZen. Todos os direitos reservados.</p>
+        <p>&copy; 2024 Centro Médico PontalZen. Todos os direitos reservados.</p>
         <p style="margin-top: 10px; font-size: 1rem;">Cuidando da sua saúde com dedicação e profissionalismo</p>
     </footer>
 
     <script>
-        // Simple animation for WhatsApp button pulse effect
-        document.addEventListener('DOMContentLoaded', function() {
-            const whatsappButtons = document.querySelectorAll('.whatsapp-button, .floating-whatsapp');
+        // Função para formatar telefone
+        function formatPhone(phone) {
+            return phone.replace(/\D/g, '');
+        }
+
+        // Função para formatar data para exibição
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('pt-BR', options);
+        }
+
+        // Função para enviar agendamento via WhatsApp
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            whatsappButtons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.1)';
-                });
+            // Obter valores do formulário
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const specialty = document.getElementById('specialty').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const message = document.getElementById('message').value;
+            
+            // Formatar a mensagem para WhatsApp
+            let whatsappMessage = `Olá! Gostaria de agendar uma consulta no Centro Médico PontalZen.\n\n`;
+            whatsappMessage += `*Nome:* ${name}\n`;
+            whatsappMessage += `*Especialidade:* ${specialty}\n`;
+            whatsappMessage += `*Data:* ${formatDate(date)}\n`;
+            whatsappMessage += `*Horário:* ${time}\n`;
+            whatsappMessage += `*WhatsApp:* ${phone}\n`;
+            
+            if (message) {
+                whatsappMessage += `*Observações:* ${message}\n`;
+            }
+            
+            whatsappMessage += `\nAguardo confirmação!`;
+            
+            // Codificar a mensagem para URL
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            const phoneNumber = '554184999939'; // Número do WhatsApp (com código do país)
+            
+            // Abrir WhatsApp com a mensagem
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // Configurar data mínima para hoje
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').min = today;
+            
+            // Adicionar máscara para telefone
+            const phoneInput = document.getElementById('phone');
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
                 
-                button.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                });
+                if (value.length > 2) {
+                    value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+                }
+                if (value.length > 10) {
+                    value = `${value.slice(0, 10)}-${value.slice(10)}`;
+                }
+                
+                e.target.value = value;
             });
         });
     </script>
