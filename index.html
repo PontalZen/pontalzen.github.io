@@ -231,6 +231,7 @@
             transition: all 0.4s ease;
             text-align: center;
             border: 2px solid transparent;
+            cursor: pointer;
         }
 
         .service-card:hover {
@@ -263,6 +264,62 @@
         .service-card p {
             color: #64748b;
             font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-details {
+            font-size: 0.9rem;
+            color: #475569;
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        /* Location Section */
+        .location-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .location-content {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .location-text {
+            flex: 1;
+        }
+
+        .location-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .location-text p {
+            margin-bottom: 1rem;
+            color: #475569;
+        }
+
+        .map-placeholder {
+            flex: 1;
+            height: 200px;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 20px;
         }
 
         /* Exams Section */
@@ -420,6 +477,14 @@
             .section-title {
                 font-size: 1.8rem;
             }
+            
+            .location-content {
+                flex-direction: column;
+            }
+            
+            .map-placeholder {
+                height: 150px;
+            }
         }
 
         /* Animation for service cards */
@@ -450,25 +515,25 @@
     <header>
         <div class="header-container">
             <div class="logo">
-               <div class="logo-icon">
-    <svg width="56" height="56" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Sol -->
-        <circle cx="100" cy="70" r="40" fill="orange" />
-        <!-- Raios do sol -->
-        <path d="M100 30L100 10" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <path d="M100 110L100 130" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <path d="M60 70L40 70" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <path d="M140 70L160 70" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <path d="M70.7 49.3L56.6 35.4" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <path d="M129.3 90.7L143.4 104.6" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <path d="M70.7 90.7L56.6 104.6" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <path d="M129.3 49.3L143.4 35.4" stroke="orange" stroke-width="10" stroke-linecap="round"/>
-        <!-- Ondas -->
-        <path d="M30 100C50 80 150 80 170 100" stroke="#25b7d3" stroke-width="15" stroke-linecap="round"/>
-        <path d="M20 115C40 95 160 95 180 115" stroke="#25b7d3" stroke-width="15" stroke-linecap="round"/>
-        <path d="M40 130C60 110 140 110 160 130" stroke="#25b7d3" stroke-width="15" stroke-linecap="round"/>
-    </svg>
-</div>
+                <div class="logo-icon">
+                    <svg width="56" height="56" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Sol -->
+                        <circle cx="100" cy="70" r="40" fill="orange" />
+                        <!-- Raios do sol -->
+                        <path d="M100 30L100 10" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M100 110L100 130" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M60 70L40 70" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M140 70L160 70" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M70.7 49.3L56.6 35.4" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M129.3 90.7L143.4 104.6" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M70.7 90.7L56.6 104.6" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <path d="M129.3 49.3L143.4 35.4" stroke="orange" stroke-width="10" stroke-linecap="round"/>
+                        <!-- Ondas -->
+                        <path d="M30 100C50 80 150 80 170 100" stroke="#25b7d3" stroke-width="15" stroke-linecap="round"/>
+                        <path d="M20 115C40 95 160 95 180 115" stroke="#25b7d3" stroke-width="15" stroke-linecap="round"/>
+                        <path d="M40 130C60 110 140 110 160 130" stroke="#25b7d3" stroke-width="15" stroke-linecap="round"/>
+                    </svg>
+                </div>
                 <div class="logo-text">
                     <h1>PontalZen</h1>
                     <p>Centro Médico</p>
@@ -506,6 +571,9 @@
                         </div>
                         <h3>Urologia</h3>
                         <p>Atendimento especializado em saúde do sistema urinário e masculino.</p>
+                        <div class="service-details">
+                            <strong>Procedimentos:</strong> Consultas, exames urológicos, tratamento de infecções urinárias, problemas prostáticos e disfunções sexuais.
+                        </div>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">
@@ -513,6 +581,9 @@
                         </div>
                         <h3>Endocrinologia</h3>
                         <p>Diagnóstico e tratamento de distúrbios hormonais e metabólicos.</p>
+                        <div class="service-details">
+                            <strong>Áreas de atuação:</strong> Diabetes, tireoide, obesidade, distúrbios do colesterol, hipertensão endócrina e doenças da glândula adrenal.
+                        </div>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">
@@ -520,6 +591,9 @@
                         </div>
                         <h3>Geriatria</h3>
                         <p>Cuidados especializados para a saúde do idoso e qualidade de vida.</p>
+                        <div class="service-details">
+                            <strong>Foco:</strong> Avaliação geriátrica completa, prevenção de quedas, manejo de múltiplas medicações, cuidados paliativos e promoção da autonomia.
+                        </div>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">
@@ -527,6 +601,9 @@
                         </div>
                         <h3>Clínico Geral</h3>
                         <p>Atendimento integral para diagnóstico e orientação médica geral.</p>
+                        <div class="service-details">
+                            <strong>Serviços:</strong> Consultas de rotina, exames preventivos, vacinação, orientação nutricional, acompanhamento de doenças crônicas e encaminhamentos especializados.
+                        </div>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">
@@ -534,6 +611,27 @@
                         </div>
                         <h3>Psiquiatria</h3>
                         <p>Avaliação e tratamento de transtornos mentais e emocionais.</p>
+                        <div class="service-details">
+                            <strong>Tratamentos:</strong> Ansiedade, depressão, transtorno bipolar, insônia, dependência química, transtornos alimentares e acompanhamento psicofarmacológico.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Location Section -->
+            <section class="location-section">
+                <h2 class="section-title">Localização</h2>
+                <div class="location-content">
+                    <div class="location-text">
+                        <h3>Encontre-nos facilmente em Pontal do Paraná</h3>
+                        <p><strong>Endereço completo:</strong> Rua Tomário Martins, esquina com Rua Tibagi, 939</p>
+                        <p><strong>Bairro:</strong> Praia de Leste</p>
+                        <p><strong>Cidade:</strong> Pontal do Paraná - PR</p>
+                        <p><strong>Ponto de referência:</strong> Próximo à Praia de Leste, fácil acesso e estacionamento disponível.</p>
+                        <p>Nossa clínica está estrategicamente localizada para atender toda a região com facilidade de acesso e conforto para nossos pacientes.</p>
+                    </div>
+                    <div class="map-placeholder">
+                        <div>Mapa de Localização<br>(Integração com Google Maps disponível em breve)</div>
                     </div>
                 </div>
             </section>
@@ -590,7 +688,7 @@
                     </div>
                     <div class="contact-text">
                         <h4>Telefone</h4>
-                        <p>(41) 98999-939</p>
+                        <p>(41) 84999-939</p>
                     </div>
                 </div>
             </div>
